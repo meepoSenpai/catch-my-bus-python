@@ -1,11 +1,13 @@
+__author__ = 'JustusAdam'
+
 import urllib.request
 import json
 
 
 
 def get_departure_list(stop_name, city_name):
-    stop_name = stop_name.replace(" ", "%20")
-    stop_name = str(stop_name.encode("ascii", "ignore"))
+    stop_name = stop_name.replace("ä", "ae").replace("ü", "ue").replace("ö", "oe").replace("ß", "ss").replace(" ", "%20")
+    city_name = city_name.replace("ä", "ae").replace("ü", "ue").replace("ö", "oe").replace("ß", "ss").replace(" ", "%20")
     url = "http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=" + city_name +"&hst=" + stop_name + "&vz="
 
 
