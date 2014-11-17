@@ -4,8 +4,6 @@ import os
 
 class catchMyPicon:
 
-    namelist = ["Hans", "Walter"]
-
     def __init__(self):
         self.statusicon = Gtk.StatusIcon()
         self.statusicon.set_from_file(os.environ['HOME'] + "/.catch-my-bus-python/bus_stop_icon.png")
@@ -20,22 +18,22 @@ class catchMyPicon:
         i = 0
         test = ""
         for x in content:
-	        if i != 2:
-		        test = test + str(x) + " "
-        	else:
-        		hours = int(str(x)) // 60
-        		minutes = int(str(x)) % 60
-        		hours = str(hours)
-        		if minutes < 10:
-        			minutes = "0" + str(minutes)
-        		else:
-        			minutes = str(minutes)
-        			test = test + hours + ":" + minutes
-	        	new_menu_element = Gtk.MenuItem()
-	        	new_menu_element.set_label(test)
-	        	self.menu.append(new_menu_element)
-        		test = ""
-        	i = (i + 1) % 3       
+            if i % 3 != 2:
+                test = test + str(x) + " "
+            else:
+                hours = int(str(x)) // 60
+                minutes = int(str(x)) % 60
+                hours = str(hours)
+                if minutes < 10:
+                    test = test + hours + ":" + "0" + str(minutes)
+                else:
+                    test = test + hours + ":" + str(minutes)
+                new_menu_element = Gtk.MenuItem()
+                new_menu_element.set_label(test)
+                self.menu.append(new_menu_element)
+                print(test)
+                test = ""
+            i = i + 1    
         quit = Gtk.MenuItem()
         quit.set_label("Quit")
         quit.connect("activate", Gtk.main_quit)

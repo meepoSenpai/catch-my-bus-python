@@ -12,5 +12,6 @@ def get_departure_list():
 	content = content.split("\"")
 	while content.count("") > 0:
 		content.remove("")
+
 	return content
 
