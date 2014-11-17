@@ -9,6 +9,8 @@ in the fetch_station.py
 Clone the Git-Repo to your $HOME directory and rename it to ".catch-my-bus-python". Then simply run
 the CatchMy.py script.
 
+You will need to have PyGObject installed, as well as Python 3.x
+
 ###Changing the Bus-Stop
 
 As of now, to change the bus stop you will have to modify the link in the fetch_station.py file as follows:
