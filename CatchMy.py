@@ -14,54 +14,16 @@ class catchMyPicon(Gtk.StatusIcon):
     def right_click_event(self, icon, button, time):
         self.menu = Gtk.Menu()
 
-        content = fetch_station.get_departure_list(self.stop_station, self.city_name)
 
-        first_menu_element = Gtk.MenuItem()
-        first_menu_element.set_label("Current Stop: " + self.city_name + " " + self.stop_station)
-        self.menu.append(first_menu_element)
-
-        i = 0
-        test = ""
-        for x in content:
-            if i % 3 != 2:
-                test = test + str(x) + " "
-            else:
-                hours = int(str(x)) // 60
-                minutes = int(str(x)) % 60
-                hours = str(hours)
-                if minutes < 10:
-                    test = test + hours + ":" + "0" + str(minutes)
-                else:
-                    test = test + hours + ":" + str(minutes)
-                new_menu_element = Gtk.MenuItem()
-                new_menu_element.set_label(test)
-                self.menu.append(new_menu_element)
-                test = ""
-            i = i + 1    
-
-        stop_one = Gtk.MenuItem()
-        stop_one.set_label("Set Stop: Zellescher Weg")
-
-        stop_one.connect("activate", self.set_stop_one)
-
-        stop_two = Gtk.MenuItem()
-        stop_two.set_label("Set Stop: Helmholzstraße")
-
-        stop_two.connect("activate", self.set_stop_two)
-
-        stop_three = Gtk.MenuItem()
-        stop_three.set_label("Set Stop: Bannewitz Rundteil")
-
-        stop_three.connect("activate", self.set_stop_three)
+        for item in fetch_station.compile_menu():
+            new_menu_element = Gtk.MenuItem()
+            new_menu_element.set_label(item)
+            self.menu.append(new_menu_element)
 
         quit = Gtk.MenuItem()
         quit.set_label("Quit")
         quit.connect("activate", Gtk.main_quit)
         
-        self.menu.append(stop_one)
-        self.menu.append(stop_two)
-        self.menu.append(stop_three)
-
         self.menu.append(quit)
 
         self.menu.show_all()
@@ -71,17 +33,17 @@ class catchMyPicon(Gtk.StatusIcon):
 
         self.menu.popup(None, None, pos, self.statusicon, button, time)
 
-    def set_stop_one(self, widget):
-        self.stop_station = "Zellescher Weg"
-        self.city_name = "Dresden"
+    #def set_stop_one(self, widget):
+    #    self.stop_station = "Zellescher Weg"
+    #    self.city_name = "Dresden"
 
-    def set_stop_two(self, widget):
-        self.stop_station = "Helmholzstraße"
-        self.city_name = "Dresden"
+    #def set_stop_two(self, widget):
+    #    self.stop_station = "Helmholzstraße"
+    #    self.city_name = "Dresden"
 
-    def set_stop_three(self, widget):
-        self.stop_station = "Rundteil"
-        self.city_name = "Bannewitz"
+    #def set_stop_three(self, widget):
+    #    self.stop_station = "Rundteil"
+    #    self.city_name = "Bannewitz"
 
 catchMyPicon()
 Gtk.main()
