@@ -3,10 +3,10 @@ import json
 
 
 
-def get_departure_list(stop_name):
+def get_departure_list(stop_name, city_name):
     stop_name = stop_name.replace(" ", "%20")
     stop_name = str(stop_name.encode("ascii", "ignore"))
-    url = "http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=Dresden&hst=" + stop_name + "&vz="
+    url = "http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=" + city_name +"&hst=" + stop_name + "&vz="
 
 
     file = urllib.request.urlopen(url).read().decode('utf-8')
@@ -15,9 +15,9 @@ def get_departure_list(stop_name):
 
     return content
 
-def compile_menu(station="Heinrich-Zille-Straße"):
+def compile_menu(station="Heinrich-Zille-Straße", city_name="Dresden"):
     return [
-        ' '.join([number, direction, ':'.join(split_time(time))]) for number, direction, time in get_departure_list(station)
+        ' '.join([number, direction, ':'.join(split_time(time))]) for number, direction, time in get_departure_list(station, city_name)
     ]
 
 def split_time(time):
