@@ -23,3 +23,6 @@ Still under construction, but for a first view of what it looks like:
 ![screenshot](./screenshot.png)
 
 It should be the same thing as [kiliankoe/catchmybus](https://github.com/kiliankoe/catchmybus)
+
+
+Icon by [Tumsi](http://openclipart.org/detail/182201/bushaltestelle-by-tumsi-182201)
