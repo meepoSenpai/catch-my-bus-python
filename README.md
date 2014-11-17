@@ -13,7 +13,7 @@ the CatchMy.py script.
 
 As of now, to change the bus stop you will have to modify the link in the fetch_station.py file as follows:
 
-http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=Dresden&hst={NAME OF MY STATION}&vz=
+http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=Dresden&hst= {NAME OF MY STATION} &vz=
 
 and simply hope that the results will be what you've wished for.
 
