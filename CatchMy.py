@@ -1,5 +1,5 @@
 from gi.repository import Gtk
-import httpreq
+import fetch_station
 import os
 
 class catchMyPicon:
@@ -8,14 +8,14 @@ class catchMyPicon:
 
     def __init__(self):
         self.statusicon = Gtk.StatusIcon()
-        self.statusicon.set_from_file(os.environ['HOME'] + "/bus_stop_icon.png")
+        self.statusicon.set_from_file(os.environ['HOME'] + "/.catch-my-bus-python/bus_stop_icon.png")
         self.statusicon.connect("popup-menu", self.right_click_event)
 
 
     def right_click_event(self, icon, button, time):
         self.menu = Gtk.Menu()
 
-        content = httpreq.get_departure_list()
+        content = fetch_station.get_departure_list()
 
         i = 0
         test = ""
