@@ -13,7 +13,7 @@ class catchMyPicon:
     def right_click_event(self, icon, button, time):
         self.menu = Gtk.Menu()
 
-        content = fetch_station.get_departure_list()
+        content = fetch_station.get_departure_list("Zellescher Weg")
 
         i = 0
         test = ""
