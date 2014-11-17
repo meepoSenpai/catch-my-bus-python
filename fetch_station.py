@@ -1,7 +1,8 @@
 import urllib.request
 
 def get_departure_list():
-	stop_name = "Zeithainer%20Straße"
+	stop_name = "Zeithainer Straße"
+	stop_name.replace(" ", "%20")
 	stop_name = str(stop_name.encode("ascii", "ignore"))
 	url = "http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=Dresden&hst=" + stop_name + "&vz="
 	content = urllib.request.urlopen(url).read()
