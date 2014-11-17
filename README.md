@@ -13,6 +13,6 @@ the CatchMy.py script.
 
 Still under construction, but for a first view of what it looks like:
 
-![screenshot](./screenshot.jpg)
+![screenshot](./screenshot.png)
 
 It should be the same thing as [kiliankoe/catchmybus](https://github.com/kiliankoe/catchmybus)

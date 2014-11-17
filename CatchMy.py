@@ -31,7 +31,6 @@ class catchMyPicon:
                 new_menu_element = Gtk.MenuItem()
                 new_menu_element.set_label(test)
                 self.menu.append(new_menu_element)
-                print(test)
                 test = ""
             i = i + 1    
         quit = Gtk.MenuItem()
