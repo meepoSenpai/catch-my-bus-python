@@ -13,11 +13,8 @@ You will need to have PyGObject installed, as well as Python 3.x
 
 ###Changing the Bus-Stop
 
-As of now, to change the bus stop you will have to modify the link in the fetch_station.py file as follows:
-
-http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=Dresden&hst= {NAME OF MY STATION} &vz=
-
-and simply hope that the results will be what you've wished for.
+In line 16 of CatchMy.py you will have to change the String argument passed to the get_departure_list method
+of the fetch_station module.
 
 ###Screenshot
 
