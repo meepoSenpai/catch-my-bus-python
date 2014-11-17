@@ -1,6 +1,5 @@
 import urllib.request
 import json
-import itertools
 
 
 def get_departure_list(stop_name):
