@@ -1,7 +1,10 @@
 import urllib.request
 
 def get_departure_list():
-	content = urllib.request.urlopen("http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=Dresden&hst=Zellescher%20Weg&vz=").read()
+	stop_name = "Zeithainer%20Straße"
+	stop_name = str(stop_name.encode("ascii", "ignore"))
+	url = "http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=Dresden&hst=" + stop_name + "&vz="
+	content = urllib.request.urlopen(url).read()
 	#content = "[[\"11\",\"Bhlau\",\"3\"],[\"11\",\"Zschertnitz\",\"6\"],[\"61\",\"Lbtau\",\"20\"],[\"61\",\"E Pohlandplatz\",\"23\"],[\"11\",\"Bhlau\",\"33\"],[\"11\",\"Zschertnitz\",\"36\"],[\"11\",\"Gorbitz\",\"48\"],[\"61\",\"Btf. Gruna\",\"53\"],[\"11\",\"Zschertnitz\",\"66\"],[\"11\",\"Bhlau\",\"73\"]]"
 
 	content = str(content, "utf-8")
