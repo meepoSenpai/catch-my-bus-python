@@ -13,26 +13,11 @@ class catchMyPicon:
     def right_click_event(self, icon, button, time):
         self.menu = Gtk.Menu()
 
-        content = fetch_station.get_departure_list("Heinrich-Zille-Straße")
+        for item in fetch_station.compile_menu():
+            new_menu_element = Gtk.MenuItem()
+            new_menu_element.set_label(item)
+            self.menu.append(new_menu_element)
 
-        i = 0
-        test = ""
-        for x in content:
-            if i % 3 != 2:
-                test = test + str(x) + " "
-            else:
-                hours = int(str(x)) // 60
-                minutes = int(str(x)) % 60
-                hours = str(hours)
-                if minutes < 10:
-                    test = test + hours + ":" + "0" + str(minutes)
-                else:
-                    test = test + hours + ":" + str(minutes)
-                new_menu_element = Gtk.MenuItem()
-                new_menu_element.set_label(test)
-                self.menu.append(new_menu_element)
-                test = ""
-            i = i + 1    
         quit = Gtk.MenuItem()
         quit.set_label("Quit")
         quit.connect("activate", Gtk.main_quit)
