@@ -34,7 +34,7 @@ class catchMyPicon(Gtk.StatusIcon):
         pre_submenu = Gtk.MenuItem()
         pre_submenu.set_label("Switch Stops")
 
-        pre_submenu.set_submenu(stopSwitchMenu(self))
+        pre_submenu.set_submenu(stopSwitchMenu(self).return_new_menu())
 
         self.menu.append(pre_submenu)
         
@@ -51,15 +51,6 @@ class catchMyPicon(Gtk.StatusIcon):
     def set_new_stop(self, stop_station, city_name):
         self.stop_station = stop_station
         self.city_name = city_name
-
-    def change_to_stop_one(self, widget):
-        self.set_new_stop("Zellescher Weg", "Dresden")
-
-    def change_to_stop_two(self, widget):
-        self.set_new_stop("Helmholzstraße", "Dresden")
-
-    def change_to_stop_three(self, widget):
-        self.set_new_stop("Rundteil", "Possendorf")
 
 
 catchMyPicon()
