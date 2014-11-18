@@ -1,7 +1,7 @@
 __author__ = 'devmeepo'
 
 from gi.repository import Gtk
-import stop_menu
+from stop_menu import stopSwitchMenu
 import fetch_station
 import os
 
@@ -10,7 +10,6 @@ class catchMyPicon(Gtk.StatusIcon):
         self.statusicon = Gtk.StatusIcon()
         self.statusicon.set_from_file(os.environ['HOME'] + "/.catch-my-bus-python/bus_stop_icon.png")
         self.statusicon.connect("popup-menu", self.right_click_event)
-        self.stop_switcher = stopSwitchMenu(self)
         self.stop_station = "Helmholzstraße"
         self.city_name = "Dresden"
 
@@ -31,6 +30,13 @@ class catchMyPicon(Gtk.StatusIcon):
         quit = Gtk.MenuItem()
         quit.set_label("Quit")
         quit.connect("activate", Gtk.main_quit)
+
+        pre_submenu = Gtk.MenuItem()
+        pre_submenu.set_label("Switch Stops")
+
+        pre_submenu.set_submenu(stopSwitchMenu(self))
+
+        self.menu.append(pre_submenu)
         
         self.menu.append(quit)
 
@@ -46,6 +52,14 @@ class catchMyPicon(Gtk.StatusIcon):
         self.stop_station = stop_station
         self.city_name = city_name
 
+    def change_to_stop_one(self, widget):
+        self.set_new_stop("Zellescher Weg", "Dresden")
+
+    def change_to_stop_two(self, widget):
+        self.set_new_stop("Helmholzstraße", "Dresden")
+
+    def change_to_stop_three(self, widget):
+        self.set_new_stop("Rundteil", "Possendorf")
 
 
 catchMyPicon()
