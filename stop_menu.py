@@ -12,7 +12,7 @@ class stopSwitchMenu:
 		first_stop.set_label("Dresden -- Zellescher Weg")
 
 		second_stop = Gtk.MenuItem()
-		second_stop.set_label("Dresden -- Helmholzstraße")
+		second_stop.set_label("Dresden -- Helmholtzstraße")
 
 		third_stop = Gtk.MenuItem()
 		third_stop.set_label("Possendorf -- Rundteil")

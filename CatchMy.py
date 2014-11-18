@@ -10,7 +10,7 @@ class catchMyPicon(Gtk.StatusIcon):
         self.statusicon = Gtk.StatusIcon()
         self.statusicon.set_from_file(os.environ['HOME'] + "/.catch-my-bus-python/bus_stop_icon.png")
         self.statusicon.connect("popup-menu", self.right_click_event)
-        self.stop_station = "Helmholzstraße"
+        self.stop_station = "Helmholtzstraße"
         self.city_name = "Dresden"
 
 
@@ -22,10 +22,15 @@ class catchMyPicon(Gtk.StatusIcon):
 
         self.menu.append(current_stop)
 
+
+        i = 0
         for item in fetch_station.compile_menu(self.stop_station, self.city_name):
             new_menu_element = Gtk.MenuItem()
             new_menu_element.set_label(item)
             self.menu.append(new_menu_element)
+            if i == 4:
+                break
+            i += 1
 
         quit = Gtk.MenuItem()
         quit.set_label("Quit")
