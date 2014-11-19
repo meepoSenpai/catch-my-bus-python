@@ -2,10 +2,10 @@
 
 __author__ = 'devmeepo'
 
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
 from stop_menu import stopSwitchMenu
-import fetch_station
-import os
+import fetch_station, os
+from time import time
 
 class catchMyPicon(Gtk.StatusIcon):
     def __init__(self):
@@ -14,6 +14,7 @@ class catchMyPicon(Gtk.StatusIcon):
         self.statusicon.connect("popup-menu", self.right_click_event)
         self.stop_station = "Helmholtzstraße"
         self.city_name = "Dresden"
+        self.stop_list = fetch_station.compile_menu(self.stop_station, self.city_name)
 
 
     def right_click_event(self, icon, button, time):
@@ -21,12 +22,13 @@ class catchMyPicon(Gtk.StatusIcon):
 
         current_stop = Gtk.MenuItem()
         current_stop.set_label("Current Stop: " + self.city_name + " - " + self.stop_station)
+        self.update_stoplist()
 
         self.menu.append(current_stop)
 
 
         i = 0
-        for item in fetch_station.compile_menu(self.stop_station, self.city_name):
+        for item in self.stop_list:
             new_menu_element = Gtk.MenuItem()
             new_menu_element.set_label(item)
             self.menu.append(new_menu_element)
@@ -58,7 +60,18 @@ class catchMyPicon(Gtk.StatusIcon):
     def set_new_stop(self, stop_station, city_name):
         self.stop_station = stop_station
         self.city_name = city_name
+        self.update_stoplist()
 
 
-catchMyPicon()
+    def update_stoplist(self):
+        self.stop_list = fetch_station.compile_menu(self.stop_station, self.city_name)
+
+    def check(self):
+        rx = os.path.getmtime(os.environ['HOME'] + "/.catch-my-bus-python/CatchMy.py")
+        if (time() - rx) > 60:
+            self.update_stoplist()
+
+
+the_tray = catchMyPicon()
+GLib.idle_add(the_tray.check)
 Gtk.main()
