@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 __author__ = 'devmeepo'
 
 from gi.repository import Gtk
