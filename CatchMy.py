@@ -4,8 +4,8 @@ __author__ = 'devmeepo'
 
 from gi.repository import Gtk, GLib
 from stop_menu import stopSwitchMenu
-import fetch_station, os
-from time import time
+import fetch_station, os, time
+from threading import Thread
 
 class catchMyPicon(Gtk.StatusIcon):
     def __init__(self):
@@ -15,6 +15,7 @@ class catchMyPicon(Gtk.StatusIcon):
         self.stop_station = "Helmholtzstraße"
         self.city_name = "Dresden"
         self.stop_list = fetch_station.compile_menu(self.stop_station, self.city_name)
+        self.program_is_running = True
 
 
     def right_click_event(self, icon, button, time):
@@ -22,7 +23,6 @@ class catchMyPicon(Gtk.StatusIcon):
 
         current_stop = Gtk.MenuItem()
         current_stop.set_label("Current Stop: " + self.city_name + " - " + self.stop_station)
-        self.update_stoplist()
 
         self.menu.append(current_stop)
 
@@ -38,7 +38,7 @@ class catchMyPicon(Gtk.StatusIcon):
 
         quit = Gtk.MenuItem()
         quit.set_label("Quit")
-        quit.connect("activate", Gtk.main_quit)
+        quit.connect("activate", self.quit_program)
 
         pre_submenu = Gtk.MenuItem()
         pre_submenu.set_label("Switch Stops")
@@ -66,12 +66,26 @@ class catchMyPicon(Gtk.StatusIcon):
     def update_stoplist(self):
         self.stop_list = fetch_station.compile_menu(self.stop_station, self.city_name)
 
-    def check(self):
-        rx = os.path.getmtime(os.environ['HOME'] + "/.catch-my-bus-python/CatchMy.py")
-        if (time() - rx) > 60:
-            self.update_stoplist()
+    def check(self, a_scheduler):
+        self.update_stoplist()
 
+    def quit_program(self, widget):
+        self.program_is_running = False
+        Gtk.main_quit()
+
+
+
+def check_for_updates():
+    i = 1
+    while the_tray.program_is_running == True:
+        if i % 60 == 0:
+            the_tray.update_stoplist()
+            i = 0
+        i += 1
+        time.sleep(1)
+        
 
 the_tray = catchMyPicon()
-GLib.idle_add(the_tray.check)
+check_thread = Thread(target=check_for_updates)
+check_thread.start()
 Gtk.main()
