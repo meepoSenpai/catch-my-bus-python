@@ -16,6 +16,8 @@ class catchMyPicon(Gtk.StatusIcon):
         self.city_name = "Dresden"
         self.stop_list = fetch_station.compile_menu(self.stop_station, self.city_name)
         self.program_is_running = True
+        self.notification_timer = -1
+        self.time_to_busstop = 5
 
 
     def right_click_event(self, icon, button, time):
@@ -27,14 +29,11 @@ class catchMyPicon(Gtk.StatusIcon):
         self.menu.append(current_stop)
 
 
-        i = 0
-        for item in self.stop_list:
+        for item in self.stop_list[:5]:
             new_menu_element = Gtk.MenuItem()
             new_menu_element.set_label(item)
+            new_menu_element.connect("activate", self.set_notification_timer)
             self.menu.append(new_menu_element)
-            if i == 4:
-                break
-            i += 1
 
         quit = Gtk.MenuItem()
         quit.set_label("Quit")
@@ -73,6 +72,13 @@ class catchMyPicon(Gtk.StatusIcon):
         self.program_is_running = False
         Gtk.main_quit()
 
+    def set_notification_timer(self, widget):
+        string_list_helper = widget.get_label().split(" ")
+        time_for_notif = int(string_list_helper[len(string_list_helper) - 1].split(":")[0]) * 60 + int(string_list_helper[len(string_list_helper) - 1].split(":")[1])
+        self.notification_timer = time_for_notif - self.time_to_busstop
+
+    def add_alert(self):
+        print(str(self.time_to_busstop) + " minutes until your bus Arrives")
 
 
 def check_for_updates():
@@ -81,7 +87,13 @@ def check_for_updates():
         if i % 60 == 0:
             the_tray.update_stoplist()
             i = 0
+            if the_tray.notification_timer >= 0:
+                if the_tray.notification_timer == 0:
+                    the_tray.add_alert()
+                the_tray.notification_timer -= 1
+
         i += 1
+
         time.sleep(1)
         
 
