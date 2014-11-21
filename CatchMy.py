@@ -12,7 +12,7 @@ class catchMyPicon(Gtk.StatusIcon):
         self.statusicon = Gtk.StatusIcon()
         self.statusicon.set_from_file(os.environ['HOME'] + "/.catch-my-bus-python/bus_stop_icon.png")
         self.statusicon.connect("popup-menu", self.right_click_event)
-        self.stop_station = "Helmholtzstraße"
+        self.stop_station = "Staats- und Universitätsbibliothek"
         self.city_name = "Dresden"
         self.stop_list = fetch_station.compile_menu(self.stop_station, self.city_name)
         self.program_is_running = True
@@ -78,7 +78,7 @@ class catchMyPicon(Gtk.StatusIcon):
         self.notification_timer = time_for_notif - self.time_to_busstop
 
     def add_alert(self):
-        print(str(self.time_to_busstop) + " minutes until your bus Arrives")
+        os.system("notify-send \"" + str(self.time_to_busstop) + " minutes until the bus arrives\"")
 
 
 def check_for_updates():
