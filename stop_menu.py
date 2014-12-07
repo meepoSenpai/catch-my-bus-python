@@ -11,11 +11,12 @@ class stopSwitchMenu:
 		stoplist = open('stop_list.txt', 'r').read().split("\n")
 
 		for item in stoplist:
-			new_stop = Gtk.MenuItem()
-			new_stop.set_label(item)
+			if item != "":
+				new_stop = Gtk.MenuItem()
+				new_stop.set_label(item)
 
-			new_stop.connect("activate", self.change_stop)
-			self.new_menu.append(new_stop)
+				new_stop.connect("activate", self.change_stop)
+				self.new_menu.append(new_stop)
 	
 	def return_new_menu(self):
 		return self.new_menu
