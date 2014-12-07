@@ -13,7 +13,7 @@ git clone https://github.com/devmeepo/catch-my-bus-python ~/.catch-my-bus-python
 ```
 
 You will need to have PyGObject installed, as well as Python 3.x.
-For some reason this applet does not work with 
+For some reason this applet does not work with Unity. 
 
 ###Adding Bus-Stops
 
