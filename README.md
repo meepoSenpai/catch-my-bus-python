@@ -19,13 +19,15 @@ For some reason this applet does not work with
 
 Just add the stop you want to the stop_list.txt file like this:
 
-@[City] -- [Bus-Stop]@
+```
+[City] -- [Bus-Stop]
+```
 
 Then simply restart the application.
 
 ###Getting notifications
 
-If @notify-send "[Notification message]"@ works for you, you can simply click
+If ```notify-send "[Notification message]"``` works for you, you can simply click
 on a Bus in the menu, and 4 minutes before the bus arrives your notification-system
 will display a small notification.
 
@@ -36,6 +38,7 @@ Still under construction, but for a first view of what it looks like:
 ![screenshot](./screenshot.png)
 
 ![screenshot2](./screenshot_notification.png)
+
 (This is what a notification with dunst could look like)
 
 It should be the same thing as [kiliankoe/catchmybus](https://github.com/kiliankoe/catchmybus) for Linux.
