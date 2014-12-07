@@ -26,4 +26,4 @@ It should be the same thing as [kiliankoe/catchmybus](https://github.com/kiliank
 (Or anyone who has PyGObject and Python 3.x installed)
 
 
-Icon by [Tumsi](http://openclipart.org/detail/182201/bushaltestelle-by-tumsi-182201)
+Icon from [IconsDB](http://www.iconsdb.com/white-icons/train-icon.html)
