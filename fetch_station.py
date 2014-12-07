@@ -15,6 +15,8 @@ def get_departure_list(stop_name, city_name):
 
 	content = json.loads(file)
 
+	print(content)
+
 	return content
 
 def compile_menu(station="Heinrich-Zille-Straße", city_name="Dresden"):

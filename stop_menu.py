@@ -8,23 +8,14 @@ class stopSwitchMenu:
 		self.parent_menu = parent_menu
 		self.new_menu = Gtk.Menu()
 
-		first_stop = Gtk.MenuItem()
-		first_stop.set_label("Dresden -- Staats- und Universitätsbibliothek")
+		stoplist = open('stop_list.txt', 'r').read().split("\n")
 
-		second_stop = Gtk.MenuItem()
-		second_stop.set_label("Dresden -- Nürnberger Platz")
+		for item in stoplist:
+			new_stop = Gtk.MenuItem()
+			new_stop.set_label(item)
 
-		third_stop = Gtk.MenuItem()
-		third_stop.set_label("Possendorf -- Rundteil")
-
-		first_stop.connect("activate", self.change_stop)
-		second_stop.connect("activate", self.change_stop)
-		third_stop.connect("activate", self.change_stop)
-
-		self.new_menu.append(first_stop)
-		self.new_menu.append(second_stop)
-		self.new_menu.append(third_stop)
-
+			new_stop.connect("activate", self.change_stop)
+			self.new_menu.append(new_stop)
 	
 	def return_new_menu(self):
 		return self.new_menu
