@@ -31,9 +31,6 @@ class catchMyPicon(Gtk.StatusIcon):
         current_stop = Gtk.MenuItem()
         current_stop.set_label("Current Stop: " + self.city_name + " - " + self.stop_station)
 
-        self.menu.append(current_stop)
-        self.menu.append(Gtk.SeparatorMenuItem())
-
         for item in self.stop_list[:5]:
             new_menu_element = Gtk.MenuItem()
             new_menu_element.set_label(item)
@@ -59,6 +56,10 @@ class catchMyPicon(Gtk.StatusIcon):
         manual_refresher = Gtk.MenuItem()
         manual_refresher.set_label("Manual Refresh")
         manual_refresher.connect("activate", self.manual_refresh)
+
+        self.menu.append(current_stop)
+        self.menu.append(Gtk.SeparatorMenuItem())
+
 
         self.menu.append(stop_switching_menu)
         self.menu.append(time_switcher_menu)
