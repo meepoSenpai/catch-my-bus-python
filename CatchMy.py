@@ -4,6 +4,7 @@ __author__ = 'devmeepo'
 
 from gi.repository import Gtk, GLib
 from stop_menu import stopSwitchMenu
+from notification_time_list import notification_time_list
 import fetch_station, os, time
 from threading import Thread
 
@@ -43,18 +44,25 @@ class catchMyPicon(Gtk.StatusIcon):
         terminate_application.set_label("Quit")
         terminate_application.connect("activate", self.quit_program)
 
-        pre_submenu = Gtk.MenuItem()
-        pre_submenu.set_label("Switch Stops")
+        stop_switching_menu = Gtk.MenuItem()
+        stop_switching_menu.set_label("Switch Stops")
 
-        pre_submenu.set_submenu(stopSwitchMenu(self).return_new_menu())
+        stop_switching_menu.set_submenu(stopSwitchMenu(self).return_new_menu())
+
+        time_switcher_menu = Gtk.MenuItem()
+        time_switcher_menu.set_label("Change Notification-time")
+
+        time_switcher_menu.set_submenu(notification_time_list(self).return_new_menu())
 
         manual_refresher = Gtk.MenuItem()
         manual_refresher.set_label("Manual Refresh")
         manual_refresher.connect("activate", self.manual_refresh)
 
-        self.menu.append(pre_submenu)
-
+        self.menu.append(stop_switching_menu)
+        self.menu.append(time_switcher_menu)
         self.menu.append(manual_refresher)
+
+        self.menu.append(Gtk.SeparatorMenuItem())
         
         self.menu.append(terminate_application)
 
