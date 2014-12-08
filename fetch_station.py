@@ -17,6 +17,9 @@ def get_departure_list(stop_name, city_name):
 			content = json.loads(r.content.decode('utf-8'))
 		else:
 			content = ['No Internet Connection']
+	except requests.RequestException as e:
+		print('Request Exception: ' + str(e))
+		content = ['No Internet Connection']
 
 	print(content)
 
