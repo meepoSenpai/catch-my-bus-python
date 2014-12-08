@@ -4,10 +4,21 @@ import urllib.request
 import json
 
 
+def escape_german(string):
+	for char, escaped in [
+		('ä', 'ae'),
+		('ü', 'ue'),
+		('ö', 'oe'),
+		('ß', 'ss'),
+		(' ', '%20')
+	]:
+		string = string.replace(char, escaped)
+	return string
+
 
 def get_departure_list(stop_name, city_name):
-	stop_name = stop_name.replace("ä", "ae").replace("ü", "ue").replace("ö", "oe").replace("ß", "ss").replace(" ", "%20")
-	city_name = city_name.replace("ä", "ae").replace("ü", "ue").replace("ö", "oe").replace("ß", "ss").replace(" ", "%20")
+	stop_name = escape_german(stop_name)
+	city_name = escape_german(city_name)
 	url = "http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=" + city_name +"&hst=" + stop_name + "&vz="
 
 	try:
