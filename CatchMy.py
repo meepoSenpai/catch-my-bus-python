@@ -3,6 +3,7 @@
 __author__ = 'devmeepo'
 
 from gi.repository import Gtk, GLib
+from pathlib import Path
 from stop_menu import stopSwitchMenu
 from notification_time_list import notification_time_list
 import fetch_station, os, time
@@ -10,8 +11,9 @@ from threading import Thread
 
 class catchMyPicon(Gtk.StatusIcon):
     def __init__(self):
+        self.path_to_things = Path(__file__).parent
         self.statusicon = Gtk.StatusIcon()
-        self.statusicon.set_from_file(os.environ['HOME'] + "/.catch-my-bus-python/bus_stop_icon.png")
+        self.statusicon.set_from_file(str(self.path_to_things) + "/bus_stop_icon.png")
         self.statusicon.connect("popup-menu", self.right_click_event)
         self.stop_station = "Staats- und Universitätsbibliothek"
         self.city_name = "Dresden"
