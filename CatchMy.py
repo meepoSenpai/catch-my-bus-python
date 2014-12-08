@@ -27,12 +27,15 @@ class catchMyPicon(Gtk.StatusIcon):
         current_stop.set_label("Current Stop: " + self.city_name + " - " + self.stop_station)
 
         self.menu.append(current_stop)
+        self.menu.append(Gtk.SeparatorMenuItem())
 
         for item in self.stop_list[:5]:
             new_menu_element = Gtk.MenuItem()
             new_menu_element.set_label(item)
             new_menu_element.connect("activate", self.set_notification_timer)
             self.menu.append(new_menu_element)
+
+        self.menu.append(Gtk.SeparatorMenuItem())
 
         terminate_application = Gtk.MenuItem()
         terminate_application.set_label("Quit")
@@ -43,7 +46,13 @@ class catchMyPicon(Gtk.StatusIcon):
 
         pre_submenu.set_submenu(stopSwitchMenu(self).return_new_menu())
 
+        manual_refresher = Gtk.MenuItem()
+        manual_refresher.set_label("Manual Refresh")
+        manual_refresher.connect("activate", self.manual_refresh)
+
         self.menu.append(pre_submenu)
+
+        self.menu.append(manual_refresher)
         
         self.menu.append(terminate_application)
 
@@ -79,6 +88,9 @@ class catchMyPicon(Gtk.StatusIcon):
     # Displays the Notification (at least on Linux systems or systems that have a notify-send command)
     def display_alert(self):
         os.system("notify-send \"" + str(self.time_to_busstop) + " minutes until the bus arrives\"")
+
+    def manual_refresh(self, widget):
+        self.update_stoplist()
 
 
 # If run will check for bus-arrival-updates every 60 seconds
