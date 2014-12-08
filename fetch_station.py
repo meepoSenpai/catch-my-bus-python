@@ -14,7 +14,7 @@ def get_departure_list(stop_name, city_name):
 		    }
 		)
 		if r.status_code == 200:
-			content = json.loads(r.content)
+			content = json.loads(r.content.decode('utf-8'))
 		else:
 			content = ['No Internet Connection']
 
