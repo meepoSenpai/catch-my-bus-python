@@ -19,8 +19,10 @@ class catchMyPicon(Gtk.StatusIcon):
         self.notification_timer = -1
         self.time_to_busstop = 5
 
-    # Generates the Menu when right-clicking the Icon
     def right_click_event(self, icon, button, time):
+        """
+        Generates the Menu when right-clicking the Icon
+        """
         self.menu = Gtk.Menu()
 
         current_stop = Gtk.MenuItem()
@@ -63,38 +65,48 @@ class catchMyPicon(Gtk.StatusIcon):
 
         self.menu.popup(None, None, pos, self.statusicon, button, time)
 
-    # Sets the current stop which is to be loaded to the given
-    # city and station name
     def set_new_stop(self, stop_station, city_name):
+        """
+        Sets the current stop which is to be loaded to the given
+        city and station name
+        """
         self.stop_station = stop_station
         self.city_name = city_name
         self.update_stoplist()
 
-    # Updates the displayed Arrival-times
     def update_stoplist(self):
+        """
+        Updates the displayed Arrival-times
+        """
         self.stop_list = fetch_station.compile_menu(self.stop_station, self.city_name)
 
     # Ends the GTK main-loop
     def quit_program(self, widget):
         self.program_is_running = False
         Gtk.main_quit()
-    
-    # Sets a timer for a notification when the next bus/tram arrives
+
     def set_notification_timer(self, widget):
+        """
+        Sets a timer for a notification when the next bus/tram arrives
+        """
         string_list_helper = widget.get_label().split(" ")
         time_for_notif = int(string_list_helper[len(string_list_helper) - 1].split(":")[0]) * 60 + int(string_list_helper[len(string_list_helper) - 1].split(":")[1])
         self.notification_timer = time_for_notif - self.time_to_busstop
 
-    # Displays the Notification (at least on Linux systems or systems that have a notify-send command)
     def display_alert(self):
+        """
+        Displays the Notification (at least on Linux systems or systems that have a notify-send command)
+        """
         os.system("notify-send \"" + str(self.time_to_busstop) + " minutes until the bus arrives\"")
 
     def manual_refresh(self, widget):
         self.update_stoplist()
 
 
-# If run will check for bus-arrival-updates every 60 seconds
 def check_for_updates():
+    """
+    If run will check for bus-arrival-updates every 60 seconds
+    """
     i = 1
     while the_tray.program_is_running:
         if i % 60 == 0:
