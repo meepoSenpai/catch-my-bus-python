@@ -1,14 +1,16 @@
 __author__ = 'devmeepo'
 
 from gi.repository import Gtk
+import os
 
 
 class stopSwitchMenu:
 	def __init__(self, parent_menu):
 		self.parent_menu = parent_menu
 		self.new_menu = Gtk.Menu()
+		stoplist_path = os.environ['HOME'] + "/.catch-my-bus-python/stop_list.txt"
 
-		stoplist = open('stop_list.txt', 'r').read().split("\n")
+		stoplist = open(stoplist_path, 'r').read().split("\n")
 
 		for item in stoplist:
 			if item != "":

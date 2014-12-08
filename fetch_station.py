@@ -10,19 +10,25 @@ def get_departure_list(stop_name, city_name):
 	city_name = city_name.replace("ä", "ae").replace("ü", "ue").replace("ö", "oe").replace("ß", "ss").replace(" ", "%20")
 	url = "http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=" + city_name +"&hst=" + stop_name + "&vz="
 
+	try:
+		file = urllib.request.urlopen(url).read().decode('utf-8')
 
-	file = urllib.request.urlopen(url).read().decode('utf-8')
-
-	content = json.loads(file)
+		content = json.loads(file)
+	except urllib.error.URLError as e:
+		content= ["No Internet Connection"]
 
 	print(content)
 
 	return content
 
 def compile_menu(station="Heinrich-Zille-Straße", city_name="Dresden"):
-	return [
-		' '.join([number, direction, ':'.join(split_time(time))]) for number, direction, time in get_departure_list(station, city_name)
-	]
+	departure_list = get_departure_list(station, city_name)
+	if departure_list == ["No Internet Connection"]:
+		return departure_list
+	else:
+		return [
+			' '.join([number, direction, ':'.join(split_time(time))]) for number, direction, time in departure_list
+		]
 
 def split_time(time):
 	if time == "":
