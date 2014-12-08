@@ -1,32 +1,42 @@
+__author__ = 'JustusAdam'
+
 import urllib.request
 import json
 
 
-def get_departure_list(stop_name):
-    stop_name = stop_name.replace(" ", "%20")
-    stop_name = str(stop_name.encode("ascii", "ignore"))
-    url = "http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=Dresden&hst=" + stop_name + "&vz="
 
+def get_departure_list(stop_name, city_name):
+	stop_name = stop_name.replace("ä", "ae").replace("ü", "ue").replace("ö", "oe").replace("ß", "ss").replace(" ", "%20")
+	city_name = city_name.replace("ä", "ae").replace("ü", "ue").replace("ö", "oe").replace("ß", "ss").replace(" ", "%20")
+	url = "http://widgets.vvo-online.de/abfahrtsmonitor/Abfahrten.do?ort=" + city_name +"&hst=" + stop_name + "&vz="
 
-    file = urllib.request.urlopen(url).read().decode('utf-8')
+	try:
+		file = urllib.request.urlopen(url).read().decode('utf-8')
 
-    content = json.loads(file)
+		content = json.loads(file)
+	except urllib.error.URLError as e:
+		content= ["No Internet Connection"]
 
-    return content
+	print(content)
 
-def compile_menu(station="Heinrich-Zille-Straße"):
-    return [
-        ' '.join([number, direction, ':'.join(split_time(time))]) for number, direction, time in get_departure_list(station)
-    ]
+	return content
 
+def compile_menu(station="Heinrich-Zille-Straße", city_name="Dresden"):
+	departure_list = get_departure_list(station, city_name)
+	if departure_list == ["No Internet Connection"]:
+		return departure_list
+	else:
+		return [
+			' '.join([number, direction, ':'.join(split_time(time))]) for number, direction, time in departure_list
+		]
 
 def split_time(time):
-    hours = str(int(str(time)) // 60)
-    minutes = str(int(str(time)) % 60)
-    if len(minutes) < 2:
-        minutes = "0" + minutes
-    else:
-        minutes = str(minutes)
-    return hours, minutes
-
-a = compile_menu("Heinrich-Zille-Straße")
+	if time == "":
+		time = 0
+	hours = str(int(str(time)) // 60)
+	minutes = str(int(str(time)) % 60)
+	if len(minutes) < 2:
+		minutes = "0" + minutes
+	else:
+		minutes = str(minutes)
+	return hours, minutes

@@ -6,24 +6,43 @@ in the fetch_station.py
 
 ###Installation
 
-Clone the Git-Repo to your $HOME directory and rename it to ".catch-my-bus-python". Then simply run
-the CatchMy.py script.
+Clone the Git-Repo to your $HOME directory as follows:
 
-You will need to have PyGObject installed, as well as Python 3.x
+```
+git clone https://github.com/devmeepo/catch-my-bus-python ~/.catch-my-bus-python
+```
 
-###Changing the Bus-Stop
+You will need to have PyGObject installed, as well as Python 3.x.
+For some reason this applet does not work with Unity. 
 
-In line 16 of CatchMy.py you will have to change the String argument passed to the get_departure_list method
-of the fetch_station module.
+###Adding Bus-Stops
 
-###Screenshot
+Just add the stop you want to the stop_list.txt file like this:
+
+```
+[City] -- [Bus-Stop]
+```
+
+Then simply restart the application.
+
+###Getting notifications
+
+If ```notify-send "[Notification message]"``` works for you, you can simply click
+on a Bus in the menu, and 4 minutes before the bus arrives your notification-system
+will display a small notification.
+
+###Screenshots
 
 Still under construction, but for a first view of what it looks like:
 
 ![screenshot](./screenshot.png)
 
+![screenshot2](./screenshot_notification.png)
+
+(This is what a notification with dunst could look like)
+
 It should be the same thing as [kiliankoe/catchmybus](https://github.com/kiliankoe/catchmybus) for Linux.
 (Or anyone who has PyGObject and Python 3.x installed)
 
 
-Icon by [Tumsi](http://openclipart.org/detail/182201/bushaltestelle-by-tumsi-182201)
+Icon from [IconsDB](http://www.iconsdb.com/white-icons/train-icon.html)
