@@ -26,6 +26,5 @@ class stopSwitchMenu:
 
 	def change_stop(self, widget):
 		help_string = widget.get_label()
-		help_string = help_string.replace(" ", "", 2)
-		help_string = help_string.split("--")
+		help_string = help_string.split(" - ")
 		self.parent_menu.set_new_stop(help_string[1], help_string[0])
