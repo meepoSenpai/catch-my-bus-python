@@ -10,12 +10,12 @@ class stopSwitchMenu:
 		self.new_menu = Gtk.Menu()
 		stoplist_path = os.environ['HOME'] + "/.catch-my-bus-python/stop_list.txt"
 
-		stoplist = open(stoplist_path, 'r').read().split("\n")
+		stoplist = sorted(open(stoplist_path, 'r').read().split("\n"))
 
 		for item in stoplist:
 			if item != "":
 				new_stop = Gtk.MenuItem()
-				new_stop.set_label(item)
+				new_stop.set_label(item.replace("--", "-"))
 
 				new_stop.connect("activate", self.change_stop)
 				self.new_menu.append(new_stop)

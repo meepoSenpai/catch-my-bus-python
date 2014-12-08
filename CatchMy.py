@@ -121,12 +121,13 @@ def check_for_updates():
             the_tray.update_stoplist()
             i = 0
             if the_tray.notification_timer >= 0:
+                the_tray.notification_timer -= 1
                 if the_tray.notification_timer == 0:
                     the_tray.display_alert()
-                the_tray.notification_timer -= 1
+
+                print(the_tray.notification_timer)
 
         i += 1
-
         time.sleep(1)
         
 
