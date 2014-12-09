@@ -15,13 +15,13 @@ class catchMyPicon(Gtk.StatusIcon):
         self.statusicon = Gtk.StatusIcon()
         self.statusicon.set_from_file(str(self.path_to_things) + "/assets/bus_stop_icon.png")
         self.statusicon.connect("popup-menu", self.right_click_event)
-        last_stop = open(str(self.path_to_things) + "/assets/last_stop.txt", 'r')
+        last_stop = open(str(self.path_to_things) + "/assets/last_config.txt", 'r')
         self.city_name = last_stop.readline().replace("\n", "")
         self.stop_station = last_stop.readline().replace("\n", "")
         self.stop_list = fetch_station.compile_menu(self.stop_station, self.city_name)
         self.program_is_running = True
         self.notification_timer = -1
-        self.time_to_busstop = 5
+        self.time_to_busstop = last_stop.readline().replace("\n", "")
 
     def right_click_event(self, icon, button, time):
         """
@@ -85,8 +85,8 @@ class catchMyPicon(Gtk.StatusIcon):
         self.stop_station = stop_station
         self.city_name = city_name
         
-        save_last_stop = open(str(self.path_to_things) + "/assets/last_stop.txt", 'w')
-        save_last_stop.write(city_name + "\n" + stop_station + "\n")
+        save_last_stop = open(str(self.path_to_things) + "/assets/last_config.txt", 'w')
+        save_last_stop.write(self.city_name + "\n" + self.stop_station + "\n" + str(self.time_to_busstop) + "\n")
 
         self.update_stoplist()
 

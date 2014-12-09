@@ -1,5 +1,6 @@
 
 from gi.repository import Gtk
+# from pathlib import Path
 
 
 class notification_time_list:
@@ -7,6 +8,10 @@ class notification_time_list:
 	def __init__(self, parent_menu):
 		self.parent_menu = parent_menu
 		self.new_menu = Gtk.Menu()
+
+		cur_set = Gtk.MenuItem()
+		cur_set.set_label("Currently set to " + str(self.parent_menu.time_to_busstop) + " Minutes")
+		self.new_menu.append(cur_set)
 
 		for i in range(15):
 			new_menu_item = Gtk.MenuItem()
@@ -20,4 +25,6 @@ class notification_time_list:
 
 	def change_notification_time(self, widget):
 		self.parent_menu.time_to_busstop = int(widget.get_label())
+		save_last_stop = open(str(self.parent_menu.path_to_things) + "/assets/last_config.txt", 'w')
+		save_last_stop.write(self.parent_menu.city_name + "\n" + self.parent_menu.stop_station + "\n" + str(self.parent_menu.time_to_busstop) + "\n")
 
