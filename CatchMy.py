@@ -6,7 +6,8 @@ from gi.repository import Gtk, GLib
 from pathlib import Path
 from stop_menu import stopSwitchMenu
 from notification_time_list import notification_time_list
-import fetch_station, os, time
+from fetch_station import compile_menu
+import os, time
 from threading import Thread
 
 class catchMyPicon(Gtk.StatusIcon):
@@ -18,7 +19,7 @@ class catchMyPicon(Gtk.StatusIcon):
         last_stop = open(str(self.path_to_things) + "/assets/last_config.txt", 'r')
         self.city_name = last_stop.readline().replace("\n", "")
         self.stop_station = last_stop.readline().replace("\n", "")
-        self.stop_list = fetch_station.compile_menu(self.stop_station, self.city_name)
+        self.stop_list = compile_menu(self.stop_station, self.city_name)
         self.program_is_running = True
         self.notification_timer = -1
         self.time_to_busstop = last_stop.readline().replace("\n", "")
@@ -94,7 +95,7 @@ class catchMyPicon(Gtk.StatusIcon):
         """
         Updates the displayed Arrival-times
         """
-        self.stop_list = fetch_station.compile_menu(self.stop_station, self.city_name)
+        self.stop_list = compile_menu(self.stop_station, self.city_name)
 
     # Ends the GTK main-loop
     def quit_program(self, widget):

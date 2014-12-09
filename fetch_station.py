@@ -46,3 +46,6 @@ def split_time(time):
 	else:
 		minutes = str(minutes)
 	return hours, minutes
+
+
+print("Hallo")
