@@ -8,7 +8,7 @@ class stopSwitchMenu:
 	def __init__(self, parent_menu):
 		self.parent_menu = parent_menu
 		self.new_menu = Gtk.Menu()
-		stoplist_path = str(parent_menu.path_to_things) + "/stop_list.txt"
+		stoplist_path = str(parent_menu.path_to_things) + "/assets/stop_list.txt"
 
 		stoplist = sorted(open(stoplist_path, 'r').read().split("\n"))
 
