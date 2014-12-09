@@ -35,9 +35,9 @@ will display a small notification.
 
 Still under construction, but for a first view of what it looks like:
 
-![screenshot](./screenshot.png)
+![screenshot](./git_assets/screenshot.png)
 
-![screenshot2](./screenshot_notification.png)
+![screenshot2](./git_assets/screenshot_notification.png)
 
 (This is what a notification with dunst could look like)
 
