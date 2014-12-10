@@ -22,7 +22,7 @@ class catchMyPicon(Gtk.StatusIcon):
         self.stop_list = compile_menu(self.stop_station, self.city_name)
         self.program_is_running = True
         self.notification_timer = -1
-        self.time_to_busstop = last_stop.readline().replace("\n", "")
+        self.time_to_busstop = int(last_stop.readline().replace("\n", ""))
 
     def right_click_event(self, icon, button, time):
         """
