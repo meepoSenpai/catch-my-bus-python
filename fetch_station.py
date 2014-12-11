@@ -21,8 +21,6 @@ def get_departure_list(stop_name, city_name):
 		print('Request Exception: ' + str(e))
 		content = ['No Internet Connection']
 
-	print(content)
-
 	return content
 
 
@@ -46,6 +44,3 @@ def split_time(time):
 	else:
 		minutes = str(minutes)
 	return hours, minutes
-
-
-print("Hallo")
