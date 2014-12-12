@@ -149,5 +149,6 @@ the_tray = catchMyPicon()
 check_thread = Thread(target=check_for_updates)
 check_thread.start()
 
+print("ACCEPT MY LOVE, GITHUB!")
 
 Gtk.main()
