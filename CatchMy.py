@@ -16,7 +16,10 @@ class catchMyPicon(Gtk.StatusIcon):
         self.statusicon = Gtk.StatusIcon()
         self.statusicon.set_from_file(str(self.path_to_things) + "/assets/bus_stop_icon.png")
         self.statusicon.connect("popup-menu", self.right_click_event)
-        last_stop = open(str(self.path_to_things) + "/assets/last_config.txt", 'r')
+        try:
+            last_stop = open(str(self.path_to_things) + "/assets/last_config.txt", 'r')
+        except FileNotFoundError:
+            last_stop = open(str(self.path_to_things) + "/assets/standard_config.txt", 'r')
         self.city_name = last_stop.readline().replace("\n", "")
         self.stop_station = last_stop.readline().replace("\n", "")
         self.stop_list = compile_menu(self.stop_station, self.city_name)
