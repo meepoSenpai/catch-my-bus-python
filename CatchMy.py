@@ -17,9 +17,9 @@ class catchMyPicon(Gtk.StatusIcon):
         self.statusicon.set_from_file(str(self.path_to_things) + "/assets/bus_stop_icon.png")
         self.statusicon.connect("popup-menu", self.right_click_event)
         try:
-            last_stop = open(str(self.path_to_things) + "/assets/last_config.txt", 'r')
+            last_stop = open(str(self.path_to_things) + "/assets/last_config", 'r')
         except FileNotFoundError:
-            last_stop = open(str(self.path_to_things) + "/assets/standard_config.txt", 'r')
+            last_stop = open(str(self.path_to_things) + "/assets/standard_config", 'r')
         self.city_name = last_stop.readline().replace("\n", "")
         self.stop_station = last_stop.readline().replace("\n", "")
         self.stop_list = compile_menu(self.stop_station, self.city_name)
@@ -71,7 +71,7 @@ class catchMyPicon(Gtk.StatusIcon):
         self.menu.append(manual_refresher)
 
         self.menu.append(Gtk.SeparatorMenuItem())
-        
+
         self.menu.append(terminate_application)
 
         self.menu.show_all()
@@ -88,8 +88,8 @@ class catchMyPicon(Gtk.StatusIcon):
         """
         self.stop_station = stop_station
         self.city_name = city_name
-        
-        save_last_stop = open(str(self.path_to_things) + "/assets/last_config.txt", 'w')
+
+        save_last_stop = open(str(self.path_to_things) + "/assets/last_config", 'w')
         save_last_stop.write(self.city_name + "\n" + self.stop_station + "\n" + str(self.time_to_busstop) + "\n")
 
         self.update_stoplist()
@@ -141,14 +141,13 @@ def check_for_updates():
 
         i += 1
         time.sleep(1)
-        
 
-the_tray = catchMyPicon()
 
-# Will launch the thread for updating the notification item
-check_thread = Thread(target=check_for_updates)
-check_thread.start()
+if(__name__ == "__main__"):
+    the_tray = catchMyPicon()
 
-print("ACCEPT MY LOVE, GITHUB!")
+    # Will launch the thread for updating the notification item
+    check_thread = Thread(target=check_for_updates)
+    check_thread.start()
 
-Gtk.main()
+    Gtk.main()
