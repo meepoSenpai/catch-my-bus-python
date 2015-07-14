@@ -76,8 +76,8 @@ class catchMyPicon(Gtk.StatusIcon):
 
         self.menu.show_all()
 
-        def pos(menu, the_icon):
-                return Gtk.StatusIcon.position_menu(menu, the_icon)
+        def pos(menu, x, y, the_icon):
+                return Gtk.StatusIcon.position_menu(menu, x, y, the_icon)
 
         self.menu.popup(None, None, pos, self.statusicon, button, time)
 
