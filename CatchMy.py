@@ -9,12 +9,17 @@ from notification_time_list import notification_time_list
 from fetch_station import compile_menu
 import os, time
 from threading import Thread
+import notify2
+
+notify2.init("CatchMyBus")
+asset_path = ""
 
 class catchMyPicon(Gtk.StatusIcon):
     def __init__(self):
         self.path_to_things = Path(__file__).parent
         self.statusicon = Gtk.StatusIcon()
         self.statusicon.set_from_file(str(self.path_to_things) + "/assets/bus_stop_icon.png")
+        asset_path = "{0}/assets/bus_stop_icon.png".format(str(self.path_to_things))
         self.statusicon.connect("popup-menu", self.right_click_event)
         try:
             last_stop = open(str(self.path_to_things) + "/assets/last_config", 'r')
@@ -117,7 +122,10 @@ class catchMyPicon(Gtk.StatusIcon):
         """
         Displays the Notification (at least on Linux systems or systems that have a notify-send command)
         """
-        os.system("notify-send \"" + str(self.time_to_busstop) + " minutes until the bus arrives\"")
+        notification = notify2.Notification("Bus arriving soon!",
+                                            "The bus will arrive in {0} minutes".format(the_tray.time_to_busstop),
+                                            asset_path)
+        notification.show()
 
     def manual_refresh(self, widget):
         self.update_stoplist()
@@ -127,6 +135,7 @@ def check_for_updates():
     """
     If run will check for bus-arrival-updates every 60 seconds
     """
+    print(asset_path)
     i = 1
     while the_tray.program_is_running:
         if i % 60 == 0:
