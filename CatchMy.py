@@ -123,7 +123,7 @@ class catchMyPicon(Gtk.StatusIcon):
         """
         notification = notify2.Notification("Bus arriving soon!",
                                             "The bus will arrive in {0} minutes".format(the_tray.time_to_busstop),
-                                            "{0}/bus_stop_icon.png".format(self.assets))
+                                            "{0}/assets/bus_stop_icon.png".format(str(asset_path)))
         print(self.assets)
         notification.show()
 

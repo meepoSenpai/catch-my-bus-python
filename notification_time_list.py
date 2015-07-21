@@ -24,7 +24,7 @@ class notification_time_list:
 
 	def change_notification_time(self, widget):
 		self.parent_menu.time_to_busstop = int(widget.get_label())
-		save_last_stop = open("{0}/assets/last_config.txt".format(self.parent_menu.assets), 'w')
+		save_last_stop = open("{0}/assets/last_config".format(self.parent_menu.assets), 'w')
 		save_last_stop.write("{0}\n{1}\n{2}\n".format(self.parent_menu.city_name,
                                                            self.parent_menu.stop_station,
                                                            str(self.parent_menu.time_to_busstop)))
