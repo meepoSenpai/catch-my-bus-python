@@ -17,7 +17,7 @@ For some reason this applet does not work with Unity.
 
 ###Adding Bus-Stops
 
-Just add the stop you want to the stop_list.txt file like this:
+Just add the stop you want to the stop_list file like this:
 
 ```
 [City] -- [Bus-Stop]
@@ -27,9 +27,17 @@ Then simply restart the application.
 
 ###Getting notifications
 
-If ```notify-send "[Notification message]"``` works for you, you can simply click
-on a Bus in the menu, and 4 minutes before the bus arrives your notification-system
-will display a small notification.
+You can set a notification time (from 1 to 30 minutes). If you click on a bus,
+the notification will pop up n Minutes before your bus arrives (n being the time
+you selected)
+
+Notifications are handled via the notify2 library.
+
+Simply use
+```
+pip install notify2
+```
+to install the library.
 
 ###Screenshots
 
