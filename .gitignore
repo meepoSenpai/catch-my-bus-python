@@ -1,6 +1,6 @@
 __pycache__
-assets/last_config
-assets/last_contig.txt
+src/assets/last_config
+src/assets/last_contig.txt
 .idea/
 *.swp
 *.swo
