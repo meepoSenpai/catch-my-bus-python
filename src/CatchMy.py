@@ -140,28 +140,22 @@ def check_for_updates():
     If run will check for bus-arrival-updates every 60 seconds
     """
     i = 1
-    while the_tray.program_is_running:
-        if i % 60 == 0:
-            the_tray.update_stoplist()
-            i = 0
-            if the_tray.notification_timer >= 0:
-                the_tray.notification_timer -= 1
-                if the_tray.notification_timer == 0:
-                    the_tray.display_alert()
-
-                print(the_tray.notification_timer)
-
+    departures = compile_menu()
+    the_tray.update_departurelist(departures)
+    while the_tray.is_active:
+        if i % 20 == 0:
+            departures = compile_menu()
+            the_tray.update_departurelist(departures)
         i += 1
         time.sleep(1)
 
-from .gtk.gtk_icon import stopIcon
+from .gtk.gtk_icon import StopIcon
 
 if(__name__ == "__main__"):
     # the_tray = catchMyPicon()
-    the_tray = stopIcon()
-    print(asset_path)
+    the_tray = StopIcon()
     # Will launch the thread for updating the notification item
-    #check_thread = Thread(target=check_for_updates)
-    #check_thread.start()
+    check_thread = Thread(target=check_for_updates)
+    check_thread.start()
 
     Gtk.main()

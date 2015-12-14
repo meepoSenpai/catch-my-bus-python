@@ -9,7 +9,7 @@ from .. import fetch_station
 ASSET_PATH = os.path.dirname(os.path.realpath(__file__))
 ASSET_STR = "{0}/../assets".format(ASSET_PATH)
 
-class stopIcon(Gtk.StatusIcon):
+class StopIcon(Gtk.StatusIcon):
     '''
     The GTK icon that displays the stops and the times when busses arrive
     at the chosen station.
@@ -34,6 +34,7 @@ class stopIcon(Gtk.StatusIcon):
         self.left_click_menu = self.init_left_click_menu()
         self.is_active = True
         self.connect("popup-menu", self.right_click)
+        self.departures = []
         self.connect("activate", self.print_button)
 
     def right_click(self, icon, button, time):
@@ -42,7 +43,7 @@ class stopIcon(Gtk.StatusIcon):
     def print_button(self, icon):
         time = Gsf.Timestamp()
         self.left_click_menu.popup(None, None, self.position_menu,
-                                   self, 1, time.seconds)
+                                   self, 3, time.seconds)
 
     def generate_popup_menu(self):
         '''
@@ -79,9 +80,33 @@ class stopIcon(Gtk.StatusIcon):
         parent_menu.show_all()
         return parent_menu
 
+    def generate_left_click_menu(self):
+        self.left_click_menu = Gtk.Menu()
+        self.departures.reverse()
+        for item in self.departures:
+            menu_item = Gtk.MenuItem()
+            menu_item.set_label(str(item))
+            self.left_click_menu.append(menu_item)
+        self.left_click_menu.show_all()
+        self.departures.reverse()
+
     def quit_program(self, widget):
         self.is_active = False
         Gtk.main_quit()
+
+    def update_departurelist(self, departures=[]):
+        departures.reverse()
+        if departures == []:
+            return
+        elif self.departures == []:
+            self.departures = departures
+        if departures[-1].direction == self.departures[-1].direction:
+            for new_item, item in zip(departures, self.departures):
+                item.update_arrival_time(new_item.arrival_time)
+        else:
+            self.departures = departures
+        self.generate_left_click_menu()
+
 
 
 if __name__ == '__main__':
