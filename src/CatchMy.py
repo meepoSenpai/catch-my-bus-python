@@ -153,6 +153,7 @@ from .gtk.gtk_icon import StopIcon
 
 if(__name__ == "__main__"):
     # the_tray = catchMyPicon()
+    print(asset_path)
     the_tray = StopIcon()
     # Will launch the thread for updating the notification item
     check_thread = Thread(target=check_for_updates)

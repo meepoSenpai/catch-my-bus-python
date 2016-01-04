@@ -5,6 +5,7 @@ from gi.repository import Gtk, GLib, Gsf
 import time as time1
 import os
 from .. import fetch_station
+from .departure_item import DepartureItem
 
 ASSET_PATH = os.path.dirname(os.path.realpath(__file__))
 ASSET_STR = "{0}/../assets".format(ASSET_PATH)
@@ -84,8 +85,8 @@ class StopIcon(Gtk.StatusIcon):
         self.left_click_menu = Gtk.Menu()
         self.departures.reverse()
         for item in self.departures:
-            menu_item = Gtk.MenuItem()
-            menu_item.set_label(str(item))
+            menu_item = DepartureItem(item)
+            menu_item.connect('activate', menu_item.set_to_notify)
             self.left_click_menu.append(menu_item)
         self.left_click_menu.show_all()
         self.departures.reverse()
@@ -107,8 +108,5 @@ class StopIcon(Gtk.StatusIcon):
             self.departures = departures
         self.generate_left_click_menu()
 
-
-
-if __name__ == '__main__':
-    a = stopIcon()
-    Gtk.main()
+def launch_icon():
+    Gtk.Main()

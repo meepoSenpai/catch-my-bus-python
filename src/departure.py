@@ -40,6 +40,7 @@ class Departure:
                                                            format(self.arrival_time),
                                                            icon_path),
                              "time" : time}
+        self.notification['notification'].show()
 
     def notify_user(self):
         '''
