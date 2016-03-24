@@ -6,6 +6,7 @@ import time as time1
 import os
 from .. import fetch_station
 from .departure_item import DepartureItem
+from asyncio import Semaphore
 
 ASSET_PATH = os.path.dirname(os.path.realpath(__file__))
 ASSET_STR = "{0}/../assets".format(ASSET_PATH)
@@ -21,6 +22,7 @@ class StopIcon(Gtk.StatusIcon):
         Constructor doesn't need extra params
         '''
         Gtk.StatusIcon.__init__(self)
+        self.lock = Semaphore()
         self.set_from_file("{0}/bus_stop_icon.png".format(ASSET_STR))
         if os.path.isfile("{0}/last_config".format(ASSET_STR)):
             config_path = "{0}/last_config".format(ASSET_STR)
@@ -97,6 +99,7 @@ class StopIcon(Gtk.StatusIcon):
 
     def update_departurelist(self, departures=[]):
         departures.reverse()
+        self.lock.acquire()
         if departures == []:
             return
         elif self.departures == []:
@@ -107,6 +110,8 @@ class StopIcon(Gtk.StatusIcon):
         else:
             self.departures = departures
         self.generate_left_click_menu()
+        self.lock.release()
+
 
 def launch_icon():
     Gtk.Main()
