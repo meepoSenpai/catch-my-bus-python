@@ -2,7 +2,7 @@ __author__ = 'JustusAdam'
 
 import json
 import requests
-from src.departure import Departure
+from departure import Departure
 
 
 def get_departure_list(stop_name, city_name):

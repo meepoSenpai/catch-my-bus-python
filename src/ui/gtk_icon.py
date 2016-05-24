@@ -1,12 +1,10 @@
 import gi
 gi.require_version('Gtk', '3.0')
+gi.require_version('Gsf',  '1')
 
 from gi.repository import Gtk, GLib, Gsf
-import time as time1
 import os
-from .. import fetch_station
 from .departure_item import DepartureItem
-from asyncio import Semaphore
 
 ASSET_PATH = os.path.dirname(os.path.realpath(__file__))
 ASSET_STR = "{0}/../assets".format(ASSET_PATH)
@@ -22,17 +20,17 @@ class StopIcon(Gtk.StatusIcon):
         Constructor doesn't need extra params
         '''
         Gtk.StatusIcon.__init__(self)
-        self.lock = Semaphore()
         self.set_from_file("{0}/bus_stop_icon.png".format(ASSET_STR))
+        print("{}/bus_stop_icon.png".format(ASSET_STR))
         if os.path.isfile("{0}/last_config".format(ASSET_STR)):
             config_path = "{0}/last_config".format(ASSET_STR)
         else:
             config_path = "{0}/standard_config".format(ASSET_STR)
         with open(config_path, 'r') as config:
-            self.icon_props = { 'last_stop' : config.readline().replace("\n", ""),
-                                'stop_station' : config.readline().replace("\n", ""),
-                                'notification_timer' : -1,
-                                'timer_offset' : config.readline().replace("\n", "")}
+            self.icon_props = {'last_stop' : config.readline().replace("\n", ""),
+                               'stop_station' : config.readline().replace("\n", ""),
+                               'notification_timer' : -1,
+                               'timer_offset' : config.readline().replace("\n", "")}
         self.right_click_menu = self.generate_popup_menu()
         self.left_click_menu = self.init_left_click_menu()
         self.is_active = True
@@ -53,7 +51,7 @@ class StopIcon(Gtk.StatusIcon):
         This function generates the right-click menu to switch stops
         or the notification time and takes no parameters.
         Returns a Gtk.Menu
-        '''
+       '''
 
         parent_menu = Gtk.Menu()
         item_list = []
@@ -97,9 +95,8 @@ class StopIcon(Gtk.StatusIcon):
         self.is_active = False
         Gtk.main_quit()
 
-    def update_departurelist(self, departures=[]):
+    def update_departurelist(self, departures):
         departures.reverse()
-        self.lock.acquire()
         if departures == []:
             return
         elif self.departures == []:
@@ -110,8 +107,6 @@ class StopIcon(Gtk.StatusIcon):
         else:
             self.departures = departures
         self.generate_left_click_menu()
-        self.lock.release()
 
-
-def launch_icon():
-    Gtk.Main()
+    def gtk_main(self):
+        Gtk.main()
