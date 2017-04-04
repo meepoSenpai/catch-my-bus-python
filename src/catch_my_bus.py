@@ -1,7 +1,8 @@
 #! /usr/bin/env python3
 
 __author__ = 'devmeepo'
-import os, time
+import os
+import time
 from threading import Thread
 from fetch_station import compile_menu
 from ui.gtk_icon import StopIcon
@@ -25,7 +26,7 @@ def check_for_updates():
         time.sleep(1)
 
 
-if(__name__ == "__main__"):
+if __name__ == "__main__":
     THE_TRAY = StopIcon()
     # Will launch the thread for updating the notification item
     CHECK_THREAD = Thread(target=check_for_updates)

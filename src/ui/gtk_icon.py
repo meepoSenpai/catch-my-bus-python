@@ -83,11 +83,15 @@ class StopIcon(Gtk.StatusIcon):
 
     def generate_left_click_menu(self):
         self.left_click_menu = Gtk.Menu()
-        self.departures.reverse()
-        for item in self.departures:
-            menu_item = DepartureItem(item)
-            menu_item.connect('activate', menu_item.set_to_notify)
-            self.left_click_menu.append(menu_item)
+        if self.departures == []:
+            no_internet = Gtk.MenuItem("No Internet Connection")
+            self.left_click_menu.append(no_internet)
+        else:
+            self.departures.reverse()
+            for item in self.departures:
+                menu_item = DepartureItem(item)
+                menu_item.connect('activate', menu_item.set_to_notify)
+                self.left_click_menu.append(menu_item)
         self.left_click_menu.show_all()
         self.departures.reverse()
 
@@ -96,12 +100,16 @@ class StopIcon(Gtk.StatusIcon):
         Gtk.main_quit()
 
     def update_departurelist(self, departures):
+        print(departures)
+        print(self.departures)
         departures.reverse()
-        if departures == []:
+        if departures == [] or 'No Internet Connection' in departures:
+            self.departures = []
             return
-        elif self.departures == []:
+        elif self.departures == [] and "No Internet Connections" not in departures:
             self.departures = departures
-        if departures[-1].direction == self.departures[-1].direction:
+        if departures != ["No Internet Connection"] and \
+           departures[-1].direction == self.departures[-1].direction:
             for new_item, item in zip(departures, self.departures):
                 item.update_arrival_time(new_item.arrival_time)
         else:
