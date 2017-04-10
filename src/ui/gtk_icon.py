@@ -32,19 +32,31 @@ class StopIcon(Gtk.StatusIcon):
                                'notification_timer' : -1,
                                'timer_offset' : config.readline().replace("\n", "")}
         self.right_click_menu = self.generate_popup_menu()
-        self.left_click_menu = self.init_left_click_menu()
         self.is_active = True
-        self.connect("popup-menu", self.right_click)
         self.departures = []
-        self.connect("activate", self.print_button)
+        self.status = True
 
-    def right_click(self, icon, button, time):
-        self.right_click_menu.popup(None, None, self.position_menu, icon, button, time)
+    def do_popup_menu(self, button, time):
+        '''
+        Overloaded method for right click menu
+        '''
+        self.right_click_menu.popup(None, None, None, self, button, time)
 
-    def print_button(self, icon):
-        time = Gsf.Timestamp()
-        self.left_click_menu.popup(None, None, self.position_menu,
-                                   self, 3, time.seconds)
+    def create_tooltip(self):
+        '''
+        Creates the tooltips displaying the future Departures
+        '''
+        if not self.status:
+            tooltip = 'No Internet Connection'
+        else:
+            tooltip = ""
+            for elem in self.departures[::-1]:
+                if tooltip == "":
+                    tooltip = tooltip + str(elem)
+                else:
+                    tooltip = tooltip + '\n' + str(elem)
+        self.set_tooltip_text(tooltip)
+
 
     def generate_popup_menu(self):
         '''
@@ -74,37 +86,22 @@ class StopIcon(Gtk.StatusIcon):
         parent_menu.show_all()
         return parent_menu
 
-    def init_left_click_menu(self):
-        parent_menu = Gtk.Menu()
-        no_connections_item = Gtk.MenuItem("No initial connection")
-        parent_menu.append(no_connections_item)
-        parent_menu.show_all()
-        return parent_menu
-
-    def generate_left_click_menu(self):
-        self.left_click_menu = Gtk.Menu()
-        if self.departures == []:
-            no_internet = Gtk.MenuItem("No Internet Connection")
-            self.left_click_menu.append(no_internet)
-        else:
-            self.departures.reverse()
-            for item in self.departures:
-                menu_item = DepartureItem(item)
-                menu_item.connect('activate', menu_item.set_to_notify)
-                self.left_click_menu.append(menu_item)
-        self.left_click_menu.show_all()
-        self.departures.reverse()
-
     def quit_program(self, widget):
+        '''
+        Will simply quit the Gtk main loop. Nothing else.
+        '''
         self.is_active = False
         Gtk.main_quit()
 
     def update_departurelist(self, departures):
-        print(departures)
-        print(self.departures)
+        '''
+        Will update the List of departures.
+        '''
         departures.reverse()
-        if departures == [] or 'No Internet Connection' in departures:
+        if departures == [] or "No Internet Connection" in departures:
+            self.status = False
             self.departures = []
+            self.create_tooltip()
             return
         elif self.departures == [] and "No Internet Connections" not in departures:
             self.departures = departures
@@ -114,7 +111,8 @@ class StopIcon(Gtk.StatusIcon):
                 item.update_arrival_time(new_item.arrival_time)
         else:
             self.departures = departures
-        self.generate_left_click_menu()
+        self.status = True
+        self.create_tooltip()
 
     def gtk_main(self):
         Gtk.main()
