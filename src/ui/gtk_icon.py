@@ -5,6 +5,7 @@ gi.require_version('Gsf',  '1')
 from gi.repository import Gtk, GLib, Gsf
 import os
 from .departure_item import DepartureItem
+from .gtk_popup import Menu
 
 ASSET_PATH = os.path.dirname(os.path.realpath(__file__))
 ASSET_STR = "{0}/../assets".format(ASSET_PATH)
@@ -21,7 +22,6 @@ class StopIcon(Gtk.StatusIcon):
         '''
         Gtk.StatusIcon.__init__(self)
         self.set_from_file("{0}/bus_stop_icon.png".format(ASSET_STR))
-        print("{}/bus_stop_icon.png".format(ASSET_STR))
         if os.path.isfile("{0}/last_config".format(ASSET_STR)):
             config_path = "{0}/last_config".format(ASSET_STR)
         else:
@@ -31,7 +31,7 @@ class StopIcon(Gtk.StatusIcon):
                                'stop_station' : config.readline().replace("\n", ""),
                                'notification_timer' : -1,
                                'timer_offset' : config.readline().replace("\n", "")}
-        self.right_click_menu = self.generate_popup_menu()
+        self.right_click_menu = Menu(self)
         self.is_active = True
         self.departures = []
         self.status = True
@@ -57,34 +57,6 @@ class StopIcon(Gtk.StatusIcon):
                     tooltip = tooltip + '\n' + str(elem)
         self.set_tooltip_text(tooltip)
 
-
-    def generate_popup_menu(self):
-        '''
-        This function generates the right-click menu to switch stops
-        or the notification time and takes no parameters.
-        Returns a Gtk.Menu
-       '''
-
-        parent_menu = Gtk.Menu()
-        item_list = []
-        item_list.append(Gtk.MenuItem())
-        item_list[-1].set_label("Current Stop")
-        item_list.append(Gtk.SeparatorMenuItem())
-        item_list.append(Gtk.MenuItem())
-        item_list[-1].set_label("{0} - {1}".format(self.icon_props['last_stop'],
-                                                   self.icon_props['stop_station']))
-        item_list.append(Gtk.MenuItem())
-        item_list[-1].set_label("Switch Station")
-        item_list.append(Gtk.MenuItem())
-        item_list[-1].set_label("Change notification timer")
-        item_list.append(Gtk.SeparatorMenuItem())
-        item_list.append(Gtk.MenuItem())
-        item_list[-1].set_label("Quit")
-        item_list[-1].connect("activate", self.quit_program)
-        for elem in item_list:
-            parent_menu.append(elem)
-        parent_menu.show_all()
-        return parent_menu
 
     def quit_program(self, widget):
         '''
