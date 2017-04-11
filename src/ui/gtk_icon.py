@@ -35,6 +35,7 @@ class StopIcon(Gtk.StatusIcon):
         self.is_active = True
         self.departures = []
         self.status = True
+        self.cur_notification = {}
 
     def do_popup_menu(self, button, time):
         '''
@@ -84,7 +85,20 @@ class StopIcon(Gtk.StatusIcon):
         else:
             self.departures = departures
         self.status = True
+        self.right_click_menu.create_departure_list(list(reversed(self.departures)))
         self.create_tooltip()
+        print(self.departures)
 
     def gtk_main(self):
         Gtk.main()
+
+    def clear_notification(self):
+        notification_keys = list(self.cur_notification.keys())
+        for elem in notification_keys:
+            self.cur_notification.pop(elem)
+
+    def notify_user(self):
+        while self.cur_notification['time'] != 0:
+            self.cur_notification['time'] = self.cur_notification['time'] - 1
+        self.cur_notification['notification'].show()
+        self.clear_notification()

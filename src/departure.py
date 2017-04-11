@@ -17,7 +17,6 @@ class Departure:
             self.arrival_time = 0
         else:
             self.arrival_time = int(arrival_time)
-        self.selected = False
         self.notification = {}
 
     def update_arrival_time(self, new_arrival_time):
@@ -27,12 +26,11 @@ class Departure:
         '''
         self.arrival_time = new_arrival_time
 
-    def set_to_notify(self, icon_path, time=0):
+    def get_notification_dict(self, icon_path, time=0):
         '''
         Creates a notify2 Notification and sets the departure object
         as selected
         '''
-        self.selected = True
         notify2.init("StationNotification")
         self.notification = {"notification" : notify2.
                                               Notification("Bus arriving soon!",
@@ -40,14 +38,7 @@ class Departure:
                                                            format(self.arrival_time),
                                                            icon_path),
                              "time" : time}
-        self.notification['notification'].show()
-
-    def notify_user(self):
-        '''
-        Shows the notification and unselects the departure object
-        '''
-        self.notification['notification'].show()
-        self.selected = False
+        return self.notification
 
     def __str__(self):
         output_str = "{0}\t{1}\t{2}"
