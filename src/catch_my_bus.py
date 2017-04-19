@@ -16,11 +16,14 @@ def check_for_updates():
     If run will check for bus-arrival-updates every 60 seconds
     """
     i = 1
-    departures = compile_menu()
+    departures = compile_menu(THE_TRAY.icon_props['last_stop'],
+                              THE_TRAY.icon_props['stop_station'])
     THE_TRAY.update_departurelist(departures)
     while THE_TRAY.is_active:
         if i % 20 == 0:
-            departures = compile_menu()
+            print(THE_TRAY.icon_props)
+            departures = compile_menu(THE_TRAY.icon_props['last_stop'],
+                                      THE_TRAY.icon_props['stop_station'])
             THE_TRAY.update_departurelist(departures)
         i += 1
         time.sleep(1)

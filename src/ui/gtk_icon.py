@@ -87,7 +87,6 @@ class StopIcon(Gtk.StatusIcon):
         self.status = True
         self.right_click_menu.create_departure_list(list(reversed(self.departures)))
         self.create_tooltip()
-        print(self.departures)
 
     def gtk_main(self):
         Gtk.main()
